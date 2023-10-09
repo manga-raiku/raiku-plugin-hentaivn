@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { GetOption, Http, PostOption } from "client-ext-animevsub-helper"
 import { parseDom } from "raiku-pgs/thread"
 

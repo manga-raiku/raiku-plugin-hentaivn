@@ -1,5 +1,3 @@
-import { expect } from "vitest"
-
 import { withProxyImage } from "./with-proxy-image"
 
 describe("with-proxy-image", () => {

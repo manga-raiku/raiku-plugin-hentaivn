@@ -28,6 +28,7 @@
   "devDependencies": {
     "@tachibana-shin/eslint-config": "^1.1.1",
     "@types/node": "^20.8.3",
+    "@typescript-eslint/parser": "^6.7.4",
     "bumpp": "^9.2.0",
     "esbuild": "^0.19.4",
     "esbuild-runner": "^2.2.2",
@@ -35,7 +36,8 @@
     "happy-dom": "^12.9.0",
     "prettier": "^3.0.3",
     "tsx": "^3.12.7",
-    "typescript": "^5.2.2",
+    "typescript": "^5.0.4",
+    "unplugin-auto-import": "^0.16.6",
     "vite": "^4.4.9",
     "vitest": "^0.34.6",
     "vue-router": "^4.2.4"

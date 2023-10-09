@@ -10,7 +10,7 @@ if (existsSync(join(__dirname, "../dist")))
 mkdirSync(join(__dirname, "../dist"))
 copyFileSync(join(__dirname, "../README.md"), join(__dirname, "../dist/README.md"))
 
-build({
+void build({
   base: "./",
   build: {
     emptyOutDir: false,
@@ -24,7 +24,7 @@ build({
   }
 })
 
-build({
+void build({
   base: "./",
   build: {
     emptyOutDir: false,

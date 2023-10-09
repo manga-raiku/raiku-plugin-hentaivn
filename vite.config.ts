@@ -1,5 +1,6 @@
 import { join } from "path"
 
+import AutoImport from "unplugin-auto-import/vite"
 import { defineConfig } from "vite"
 
 export default defineConfig({
@@ -14,5 +15,16 @@ export default defineConfig({
   },
   define: {
     __NOW__: Date.now()
-  }
+  },
+  plugins: [
+    AutoImport({
+      dirs: ["./src/logic", "./src/fetch"],
+      imports: [
+        {
+          "raiku-pgs/plugin": ["parseTimeAgo", "normalizeChName"],
+          package: ["sourceId"]
+        }
+      ]
+    })
+  ]
 })
