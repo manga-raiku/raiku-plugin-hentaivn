@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { readFileSync, writeFileSync } from "fs"
+import { join } from "path"
+
 import type { GetOption, Http, PostOption } from "client-ext-animevsub-helper"
 import { parseDom } from "raiku-pgs/thread"
 
@@ -13,19 +15,14 @@ type Response<Type extends GetOption["responseType"]> = Omit<
     ? ArrayBuffer
     : string
 }
-function get<
-  ReturnType extends GetOption["responseType"] | undefined
->(
+function get<ReturnType extends GetOption["responseType"] | undefined>(
   options: Omit<GetOption, "responseType"> & {
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(
-    options.url,
-    {
-      headers: options.headers
-    }
-  ).then(async (res) => {
+  return fetch(options.url, {
+    headers: options.headers
+  }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, functional/no-let
     let data: any
     switch (options.responseType) {
@@ -50,19 +47,15 @@ function get<
   })
 }
 
-export function post<
-  ReturnType extends GetOption["responseType"] | undefined
->(
+export function post<ReturnType extends GetOption["responseType"] | undefined>(
   options: Omit<PostOption, "responseType"> & {
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(options.url,
-    {
-      method: "post",
-      headers: options.headers
-    }
-  ).then(async (res) => {
+  return fetch(options.url, {
+    method: "post",
+    headers: options.headers
+  }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, functional/no-let
     let data: any
     switch (options.responseType) {
@@ -89,3 +82,31 @@ export function post<
 
 // eslint-disable-next-line functional/immutable-data
 Object.assign(self, { parseDom, get, post })
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function expectFile(name: string, fn: Function) {
+  const [txt, json] = [
+    readFileSync(
+      join(__dirname, "../src/fetch/__test__/assets/", name + ".txt"),
+      "utf8"
+    ),
+    readFileSync(
+      join(__dirname, "../src/fetch/__test__/assets/", name + ".json"),
+      "utf8"
+    )
+  ]
+
+  expect(fn(txt)).toEqual(JSON.parse(json))
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function writeTest(name: string, fn: Function) {
+  const txt = readFileSync(
+    join(__dirname, "../src/fetch/__test__/assets/", name + ".txt"),
+    "utf8"
+  )
+
+  writeFileSync(
+    join(__dirname, "../src/fetch/__test__/assets/", name + ".json"),
+    JSON.stringify(fn(txt))
+  )
+}

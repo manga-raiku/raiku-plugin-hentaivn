@@ -1,42 +1,38 @@
-import type { GetOption } from "client-ext-animevsub-helper"
-import {
-  type API,
-  defineApi,
-  type FetchGet,
-  type FetchPost,
-  type ID,
-  type Ranking,
-  type Server
-} from "raiku-pgs/plugin"
-
-const Rankings: Ranking[] = []
-const Servers: Server[] = []
+import { defineApi } from "raiku-pgs/plugin"
+import type { API, Comments, ID } from "raiku-pgs/plugin"
+import { Rankings, Servers } from "src/constants"
+import { index } from "src/fetch"
+import { getComic } from "src/fetch/get-comic"
+import { getComicChapter } from "src/fetch/get-comic-chapter"
+import { getListChapters } from "src/fetch/get-list-chapters"
+import { search } from "src/fetch/search"
+import { searchQuickly } from "src/fetch/search-quickly"
 
 class Plugin implements API {
   public readonly Rankings = Rankings
   public readonly Servers = Servers
 
-  public readonly get: FetchGet<GetOption["responseType"]>
-  public readonly post: FetchPost<GetOption["responseType"]>
-
-  constructor(
-    get: FetchGet<GetOption["responseType"]>,
-    post: FetchPost<GetOption["responseType"]>
-  ) {
-    this.get = get
-    this.post = post
+  async setup() {
+    if (AppInfo.extension) {
+      await setReferrers({
+        "#hentaivn": CURL
+      })
+    }
   }
 
-  async index() {}
+  async index() {
+    return index()
+  }
 
-  async getComic(zlug: string) {}
+  async getComic(zlug: string) {
+    return getComic(zlug)
+  }
 
-  async getComicChapter<Fast extends boolean>(
-    mangaId: ID,
-    epId: ID,
-    fast: Fast
-  ) {}
+  async getComicChapter<Fast extends boolean>(zlug: ID, chap: ID, fast: Fast) {
+    return getComicChapter(zlug, chap, fast)
+  }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async getComicComments(
     comicId: number,
     orderByNews: boolean,
@@ -44,25 +40,43 @@ class Plugin implements API {
     parentId = 0,
     page: number,
     comicKey: string
-  ) {}
+  ) {
+    return {
+      comments: [],
+      comments_count: 0,
+      comments_pages: 0
+    } as Comments
+  }
 
-  async getListChapters(mangaId: ID) {}
+  async getListChapters(mangaId: ID, mangaParam: string) {
+    return getListChapters(mangaId, mangaParam)
+  }
 
-  async searchQuickly(keyword: string, page: number) {}
+  searchQuickly(keyword: string, page: number) {
+    return searchQuickly(keyword, page)
+  }
 
-  async search(keyword: string, page: number) {}
+  async search(keyword: string, page: number) {
+    return search(keyword, page)
+  }
 
-  async getRanking(
-    type: string,
-    page: number,
-    filter: Record<string, string>
-  ) {}
+  async getRanking(type: string, page: number) {
+    const rank = Rankings.find((item) => item.value === type)
+    if (!rank) throw new Error("not_found")
 
-  async getCategory(
-    type: string,
-    page: number,
-    filter: Record<string, string | string[]>
-  ) {}
+    return general(rank.match, page)
+  }
+
+  async getCategory(type: string, page: number) {
+    const match = type.match(/-(\d+)$/)
+
+    if (!match) throw new Error("not_found")
+
+    return general(
+      `the-loai-${type.slice(0, match.index)}-${match[1]}.html`,
+      page
+    )
+  }
 }
 
 defineApi(Plugin)

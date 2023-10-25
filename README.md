@@ -25,3 +25,6 @@ This is a plugin template for the Raiku application.
 1. Run `pnpm release` to release plugin with `Github Actions`
 
 Good luck!
+
+## Tasks
+- [ ] resolve comments
