@@ -3,7 +3,8 @@ import type { API, Chapter, ID, RouteComicChap } from "raiku-pgs/plugin"
 import { parseDate } from "raiku-pgs/plugin"
 
 export function parserListChapters(
-  html: string
+  html: string,
+  comic: string
 ): Awaited<ReturnType<API["getListChapters"]>> {
   // eslint-disable-next-line functional/no-throw-statements
   if (html.includes("404 Not Found</h1>")) throw new Error("not_found")
@@ -19,7 +20,8 @@ export function parserListChapters(
 
       const route = parseRouteComic(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        $item.find("a").attr("href")!
+        $item.find("a").attr("href")!,
+        comic
       ) as RouteComicChap
       const id = route.params.sourceId
       const updated_at = parseDate($item.find("td").last().text())
@@ -39,5 +41,5 @@ export async function getListChapters(mangaId: ID, mangaParam: string) {
     url: `https://hentaivn.tv/list-showchapter.php?idchapshow=${mangaId}&idlinkanime=${mangaParam}`
   })
 
-  return parserListChapters(data)
+  return parserListChapters(data, mangaParam)
 }
