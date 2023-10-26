@@ -1,4 +1,4 @@
-import type { General } from "raiku-pgs/plugin"
+import type { FilterQuery, FilterURI, General } from "raiku-pgs/plugin"
 
 export function parserGeneral(html: string): General {
   // eslint-disable-next-line functional/no-throw-statements
@@ -34,23 +34,75 @@ export async function general(path: string, page: number) {
   let cookie: string | undefined
   if (url.searchParams.get("sort")) {
     cookie =
-      // eslint-disable-next-line no-sparse-arrays
       [
-        "view=0;view0=1;view2=0;view3=0;view4=0;view5=0",,
-
+        "view=0;view0=0;view2=0;view3=0;view4=0;view5=1",
         "view=0;view0=0;view2=1;view3=0;view4=0;view5=0",
         "view=0;view0=0;view2=0;view3=1;view4=0;view5=0",
-        "view=0;view0=0;view2=0;view3=0;view4=1;view5=0",
-        "view=0;view0=0;view2=0;view3=0;view4=0;view5=1"
+        "view=1;view0=0;view2=0;view3=0;view4=0;view5=0",
+        "view=0;view0=1;view2=0;view3=0;view4=0;view5=0"
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       ][parseInt(url.searchParams.get("sort") + "")] ??
-      "view=1;view0=0;view2=0;view3=0;view4=0;view5=0"
+      "view=0;view0=0;view2=0;view3=0;view4=0;view5=1"
   }
   // now scam
-  const { data } = await get({
-    url: url.href,
-    headers: cookie ? { "c-cookie": cookie } : undefined
-  })
+  const [general, filters] = await Promise.all([
+    get({
+      url: url.href,
+      headers: cookie ? { "c-cookie": cookie } : undefined
+    }).then(({ data }) => parserGeneral(data)),
+    post({
+      url: `${CURL}/tag_box.php`,
+      data: {
+        tagid: "1"
+      }
+    }).then(({ data }): General["filters"] => {
+      const $ = parseDom(data)
 
-  return parserGeneral(data)
+      return [
+        <FilterURI>{
+          type: "Thể loại",
+          select: $("a")
+            .toArray()
+            .map((item) => {
+              const $item = $(item)
+
+              const name = $item.text().trim()
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              const route = parseRouteGenre($item.attr("href")!)
+
+              return { name, route }
+            })
+        },
+        <FilterQuery>{
+          type: "Sắp xếp",
+          key: "sort",
+          items: [
+            {
+              name: "Ngày",
+              value: "0"
+            },
+            {
+              name: "Tuần",
+              value: "1"
+            },
+            {
+              name: "Tháng",
+              value: "2"
+            },
+            {
+              name: "Tất",
+              value: "3"
+            },
+            {
+              name: "Thịnh hành",
+              value: "4"
+            }
+          ]
+        }
+      ]
+    })
+  ])
+
+  // eslint-disable-next-line functional/immutable-data
+  return Object.assign(general, { filters })
 }

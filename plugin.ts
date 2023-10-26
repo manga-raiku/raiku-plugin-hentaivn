@@ -70,10 +70,12 @@ class Plugin implements API {
   async getCategory(type: string, page: number) {
     const match = type.match(/-(\d+)$/)
 
-    if (!match) throw new Error("not_found")
+    if (type && !match) throw new Error("not_found")
 
     return general(
-      `the-loai-${type.slice(0, match.index)}-${match[1]}.html`,
+      !type
+        ? "danh-sach.html"
+        : `the-loai-${type.slice(0, match!.index)}-${match![1]}.html`,
       page
     )
   }

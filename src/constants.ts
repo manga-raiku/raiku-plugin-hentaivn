@@ -13,24 +13,24 @@ export const Rankings: Ranking[] = [
   },
   {
     value: "week",
-    match: "danh-sach.html?sort=2",
+    match: "danh-sach.html?sort=1",
     name: {
       vi: "Tuần"
     }
   },
   {
     value: "month",
-    match: "danh-sach.html?sort=3",
+    match: "danh-sach.html?sort=2",
     name: { vi: "Tháng" }
   },
   {
     value: "all",
-    match: "danh-sach.html?sort=4",
+    match: "danh-sach.html?sort=3",
     name: { vi: "Tất" }
   },
   {
     value: "hot",
-    match: "danh-sach.html?sort=5",
+    match: "danh-sach.html?sort=4",
     name: { vi: "Thịnh hành" }
   }
 ]
