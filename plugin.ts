@@ -34,12 +34,7 @@ class Plugin implements API {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async getComicComments(
-    comicId: number,
-    orderByNews: boolean,
-    chapterId = -1,
-    parentId = 0,
-    page: number,
-    comicKey: string
+
   ) {
     return {
       comments: [],

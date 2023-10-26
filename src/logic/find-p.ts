@@ -1,6 +1,6 @@
-import type { Cheerio, CheerioAPI } from "cheerio"
+import type { CheerioAPI, Element } from "cheerio"
 
-export function findP($: CheerioAPI, p: Cheerio<Element>[], text: string) {
+export function findP($: CheerioAPI, p: Element[], text: string) {
   const $parent = $(
     p.find((p) => {
       return $(p).find(".info").text().trim().toLowerCase() === text
