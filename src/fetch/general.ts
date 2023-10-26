@@ -36,15 +36,15 @@ export async function general(path: string, page: number) {
     cookie =
       // eslint-disable-next-line no-sparse-arrays
       [
-        "view=0&view0=1&view2=0&view3=0&view4=0view5=0",,
+        "view=0;view0=1;view2=0;view3=0;view4=0;view5=0",,
 
-        "view=0&view0=0&view2=1&view3=0&view4=0view5=0",
-        "view=0&view0=0&view2=0&view3=1&view4=0view5=0",
-        "view=0&view0=0&view2=0&view3=0&view4=1view5=0",
-        "view=0&view0=0&view2=0&view3=0&view4=0view5=1"
+        "view=0;view0=0;view2=1;view3=0;view4=0;view5=0",
+        "view=0;view0=0;view2=0;view3=1;view4=0;view5=0",
+        "view=0;view0=0;view2=0;view3=0;view4=1;view5=0",
+        "view=0;view0=0;view2=0;view3=0;view4=0;view5=1"
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       ][parseInt(url.searchParams.get("sort") + "")] ??
-      "view=1&view0=0&view2=0&view3=0&view4=0view5=0"
+      "view=1;view0=0;view2=0;view3=0;view4=0;view5=0"
   }
   // now scam
   const { data } = await get({
