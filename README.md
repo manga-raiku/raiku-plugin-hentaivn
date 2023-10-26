@@ -1,6 +1,8 @@
-# Raiku Plugin Template
+# raiku-plugin-hentaivn
 
-This is a plugin template for the Raiku application.
+This is a plugin source Hentai VN for Raiku App.
+
+Install with url: https://manga-raiku.github.io/raiku-plugin-hentaivn
 
 ## How to create a plugin with this template
 
@@ -25,6 +27,3 @@ This is a plugin template for the Raiku application.
 1. Run `pnpm release` to release plugin with `Github Actions`
 
 Good luck!
-
-## Tasks
-- [ ] resolve comments
