@@ -32,7 +32,7 @@
     "bumpp": "^9.2.0",
     "esbuild": "^0.19.5",
     "eslint": "^8.52.0",
-    "happy-dom": "^12.9.1",
+    "happy-dom": "^12.10.3",
     "prettier": "^3.0.3",
     "tsx": "^3.14.0",
     "typescript": "^5.2.2",
