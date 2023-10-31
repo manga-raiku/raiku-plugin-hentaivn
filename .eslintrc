@@ -1,6 +1,5 @@
 {
   "extends": [
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "@tachibana-shin/eslint-config"
   ],
   "parser": "@typescript-eslint/parser",

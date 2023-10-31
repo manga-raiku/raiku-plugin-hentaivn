@@ -32,7 +32,6 @@ class Plugin implements API {
     return getComicChapter(zlug, chap, fast)
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async getComicComments(
 
   ) {

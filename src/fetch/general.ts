@@ -40,7 +40,7 @@ export async function general(path: string, page: number) {
         "view=0;view0=0;view2=0;view3=1;view4=0;view5=0",
         "view=1;view0=0;view2=0;view3=0;view4=0;view5=0",
         "view=0;view0=1;view2=0;view3=0;view4=0;view5=0"
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+
       ][parseInt(url.searchParams.get("sort") + "")] ??
       "view=0;view0=0;view2=0;view3=0;view4=0;view5=1"
   }
