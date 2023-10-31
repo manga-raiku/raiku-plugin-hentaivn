@@ -26,7 +26,7 @@
     "raiku-pgs": "0.0.9-beta.42"
   },
   "devDependencies": {
-    "@tachibana-shin/eslint-config": "^1.1.1",
+    "@tachibana-shin/eslint-config": "^1.0.7",
     "@types/node": "^20.8.10",
     "@typescript-eslint/parser": "^6.9.1",
     "bumpp": "^9.2.0",
