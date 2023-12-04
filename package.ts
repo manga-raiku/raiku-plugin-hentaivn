@@ -24,5 +24,6 @@ export const meta = definePackage({
   get support() {
     return AppInfo.extension || AppInfo.mode === "capacitor"
   },
+  supportGetMode: true,
   updatedAt: import.meta.env.DEV ? Date.now() : __NOW__
 })

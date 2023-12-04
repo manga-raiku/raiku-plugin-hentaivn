@@ -3,6 +3,7 @@ import type { Ranking, Server } from "raiku-pgs/plugin"
 import { parseLoadServer } from "./logic/parse-load-server"
 
 export const CURL = "https://hentaivn.tv"
+export const TAGS_IS_MANGA = ["manga", "anime", "japanese"]
 export const Rankings: Ranking[] = [
   {
     value: "ngay",

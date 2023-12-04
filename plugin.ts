@@ -1,6 +1,6 @@
 import { defineApi } from "raiku-pgs/plugin"
-import type { API, Comments, ID } from "raiku-pgs/plugin"
-import { Rankings, Servers } from "src/constants"
+import type { API, Comic, Comments, ID } from "raiku-pgs/plugin"
+import { Rankings, Servers, TAGS_IS_MANGA } from "src/constants"
 import { index } from "src/fetch"
 import { getComic } from "src/fetch/get-comic"
 import { getComicChapter } from "src/fetch/get-comic-chapter"
@@ -8,9 +8,11 @@ import { getListChapters } from "src/fetch/get-list-chapters"
 import { search } from "src/fetch/search"
 import { searchQuickly } from "src/fetch/search-quickly"
 
-class Plugin implements API {
+class Plugin implements API<false> {
   public readonly Rankings = Rankings
   public readonly Servers = Servers
+
+  public readonly autoFetchComicIsManga = false
 
   async setup() {
     if (AppInfo.extension) {
@@ -26,6 +28,17 @@ class Plugin implements API {
 
   async getComic(zlug: string) {
     return getComic(zlug)
+  }
+
+  async getModeReader(_: string, __: string) {
+    // if (comicData.genres.some(item => TAGS_IS_MANGA.includes(item.name.toLowerCase()))) {
+    return {
+      scrollingMode: false,
+      rightToLeft: true
+    }
+    // }
+
+    // return {}
   }
 
   async getComicChapter<Fast extends boolean>(zlug: ID, chap: ID, fast: Fast) {
